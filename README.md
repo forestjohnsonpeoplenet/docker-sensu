@@ -111,32 +111,37 @@ An example `docker-compose.yml` file of running everything locally:
 api:
   image: sstarcher/sensu
   command: api
+  environment:
+    TRANSPORT_NAME: redis
   links:
-    - rabbitmq
     - redis
 server:
   image: sstarcher/sensu
   command: server
+  environment:
+    TRANSPORT_NAME: redis
   links:
-    - rabbitmq
     - redis
     - api
 client:
   image: sstarcher/sensu
   command: client
   environment:
-    CLIENT_NAME: bob
-    RUNTIME_INSTALL: sstarcher/aws sstarcher/consul
+    CLIENT_NAME: my_client
+    RUNTIME_INSTALL: aws http
+    TRANSPORT_NAME: redis
+    CLIENT_ADDRESS: 127.0.0.1
   links:
-    - rabbitmq
+    - redis
 uchiwa:
-  build: docker-uchiwa
+  image: sstarcher/uchiwa
+  environment:
+    SENSU_DC_NAME: Sensu
+    SENSU_HOSTNAME: sensu
   links:
     - api:sensu
   ports:
     - '80:3000'
-rabbitmq:
-  image: rabbitmq:3.5-management
 redis:
   image: redis
 ```
