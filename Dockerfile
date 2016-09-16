@@ -29,7 +29,7 @@ RUN \
 ENV ENVTPL_VERSION=0.2.3
 RUN \
     curl -Ls https://github.com/arschles/envtpl/releases/download/${ENVTPL_VERSION}/envtpl_linux_amd64 > /usr/local/bin/envtpl && \
-    curl -s 'https://github-cloud.s3.amazonaws.com/releases/49609581/1434e3dc-7b5c-11e6-8375-31fdcb64a7cd.deb?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAISTNZFOVBIJMK3TQ%2F20160916%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20160916T210049Z&X-Amz-Expires=300&X-Amz-Signature=aa52fa486cd3915a0352bb5bd7d37d03b5f736cb0cce86ec1b89fd1d2c257743&X-Amz-SignedHeaders=host&actor_id=19273873&response-content-disposition=attachment%3B%20filename%3Dpowershell_6.0.0-alpha.10-1ubuntu1.16.04.1_amd64.deb&response-content-type=application%2Foctet-stream' -o powershell_6.0.0-alpha.10-1ubuntu1.16.04.1_amd64.deb && \
+    curl -Ls 'https://github.com/PowerShell/PowerShell/releases/download/v6.0.0-alpha.10/powershell_6.0.0-alpha.10-1ubuntu1.16.04.1_amd64.deb' -o powershell_6.0.0-alpha.10-1ubuntu1.16.04.1_amd64.deb && \
     dpkg -i powershell_6.0.0-alpha.10-1ubuntu1.16.04.1_amd64.deb && \
     rm powershell_6.0.0-alpha.10-1ubuntu1.16.04.1_amd64.deb && \
     chmod +x /usr/local/bin/envtpl
