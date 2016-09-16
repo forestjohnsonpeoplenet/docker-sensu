@@ -1,5 +1,5 @@
-FROM debian:jessie
-MAINTAINER Shane Starcher <shanestarcher@gmail.com>
+FROM ubuntu:16.04
+MAINTAINER Forest Johnson <fjohnson@peoplenetonline.com>
 
 RUN \
     apt-get update &&\
@@ -20,7 +20,7 @@ ENV PATH /opt/sensu/embedded/bin:$PATH
 #Nokogiri is needed by aws plugins
 RUN \
 	apt-get update && \
-    apt-get install -y libxml2 libxml2-dev libxslt1-dev zlib1g-dev build-essential  && \
+    apt-get install -y libxml2 libxml2-dev libxslt1-dev zlib1g-dev libunwind8 libicu55 build-essential  && \
     gem install --no-ri --no-rdoc nokogiri yaml2json && \
     apt-get remove -y libxml2-dev libxslt1-dev zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
@@ -28,7 +28,10 @@ RUN \
 
 ENV ENVTPL_VERSION=0.2.3
 RUN \
-    curl -Ls https://github.com/arschles/envtpl/releases/download/${ENVTPL_VERSION}/envtpl_linux_amd64 > /usr/local/bin/envtpl &&\
+    curl -Ls https://github.com/arschles/envtpl/releases/download/${ENVTPL_VERSION}/envtpl_linux_amd64 > /usr/local/bin/envtpl && \
+    curl -s 'https://github-cloud.s3.amazonaws.com/releases/49609581/1434e3dc-7b5c-11e6-8375-31fdcb64a7cd.deb?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAISTNZFOVBIJMK3TQ%2F20160916%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20160916T210049Z&X-Amz-Expires=300&X-Amz-Signature=aa52fa486cd3915a0352bb5bd7d37d03b5f736cb0cce86ec1b89fd1d2c257743&X-Amz-SignedHeaders=host&actor_id=19273873&response-content-disposition=attachment%3B%20filename%3Dpowershell_6.0.0-alpha.10-1ubuntu1.16.04.1_amd64.deb&response-content-type=application%2Foctet-stream' -o powershell_6.0.0-alpha.10-1ubuntu1.16.04.1_amd64.deb && \
+    dpkg -i powershell_6.0.0-alpha.10-1ubuntu1.16.04.1_amd64.deb && \
+    rm powershell_6.0.0-alpha.10-1ubuntu1.16.04.1_amd64.deb && \
     chmod +x /usr/local/bin/envtpl
 
 COPY templates /etc/sensu/templates
